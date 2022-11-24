@@ -7,7 +7,6 @@ import game_rules as game
 from tkinter import *
 
 
-
 window = Tk()
 window.title("IQ Puzzler Pro")
 window.geometry("1080x720")
@@ -24,13 +23,15 @@ cnv.place(x=TAB_GAP, y=TAB_GAP)
 
 grid = [[0 for _ in range(NB_COLUMN)] for _ in range(NB_LINE)]
 
-snake = [(4, 6), (4, 5), (4, 4), (4, 3)]
+snake = [(4, 6), (4, 5)]
+
+count = 0
 
 direction = [game.RIGHT]
 
-draw_grid_colour(cnv, grid)
+draw_grid_colour(cnv)
 
-draw_with_coordo(snake, 5, cnv)
+draw_with_coordo(snake, "yellow", cnv)
 
 generate_button = Button(window, text="Play", font='Helvetica 15 bold',
                          background='light gray')
@@ -38,16 +39,25 @@ generate_button = Button(window, text="Play", font='Helvetica 15 bold',
 generate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=2 * TAB_GAP)
 
 verify_button = Button(window, text="Simulate", font='Helvetica 15 bold',
-                         background='light gray')
+                       background='light gray')
 
 verify_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=3 * TAB_GAP)
+
 
 window.bind("<Left>", lambda event: game.go_left(direction))
 window.bind("<Up>", lambda event: game.go_up(direction))
 window.bind("<Right>", lambda event: game.go_right(direction))
 window.bind("<Down>", lambda event: game.go_down(direction))
 
-game.move_the_snake(window, cnv, snake, direction)
+game.spawn_apple(grid, snake, cnv)
+
+compteur_lbl = Label(window, text=str(count), font=("", 16))
+compteur_lbl.grid(padx=8, pady=8)
+
+game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)
+
+
+
 
 window.mainloop()
 

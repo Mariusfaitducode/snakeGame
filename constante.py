@@ -2,10 +2,10 @@
 
 TAB_GAP = 50  # distance entre canvas et fenetre
 
-COTE_CASE = 50
+COTE_CASE = 40
 
-NB_LINE = 10
-NB_COLUMN = 16
+NB_LINE = 12
+NB_COLUMN = 18
 
 LINE_WIDTH = 6
 
@@ -14,9 +14,3 @@ WIDTH_TAB = (COTE_CASE + LINE_WIDTH / 2) * NB_COLUMN + LINE_WIDTH
 
 TAILLE_MAX = 6
 TAILLE_MIN = 3
-
-VIDE = 0
-
-
-
-
