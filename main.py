@@ -29,12 +29,18 @@ count = 0
 
 direction = [game.RIGHT]
 
+endGame = True
+
+#  Draw boardgame
+
 draw_grid_colour(cnv)
 
 draw_with_coordo(snake, "yellow", cnv)
 
+# Buttons
+
 generate_button = Button(window, text="Play", font='Helvetica 15 bold',
-                         background='light gray')
+                         background='light gray',  command=(lambda: game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)))
 
 generate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=2 * TAB_GAP)
 
@@ -44,25 +50,26 @@ verify_button = Button(window, text="Simulate", font='Helvetica 15 bold',
 verify_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=3 * TAB_GAP)
 
 
+# Interactions
+
 window.bind("<Left>", lambda event: game.go_left(direction))
 window.bind("<Up>", lambda event: game.go_up(direction))
 window.bind("<Right>", lambda event: game.go_right(direction))
 window.bind("<Down>", lambda event: game.go_down(direction))
 
+
+# Game rules
+
 game.spawn_apple(grid, snake, cnv)
+
+
 
 compteur_lbl = Label(window, text=str(count), font=("", 16))
 compteur_lbl.grid(padx=8, pady=8)
 
-game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)
-
-
+if not endGame:
+    game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)
 
 
 window.mainloop()
-
-
-
-
-
 

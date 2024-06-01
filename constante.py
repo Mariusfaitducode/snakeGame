@@ -2,10 +2,10 @@
 
 TAB_GAP = 50  # distance entre canvas et fenetre
 
-COTE_CASE = 40
+COTE_CASE = 50
 
-NB_LINE = 12
-NB_COLUMN = 18
+NB_LINE = 7
+NB_COLUMN = 12
 
 LINE_WIDTH = 6
 
