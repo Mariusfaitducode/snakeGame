@@ -1,6 +1,6 @@
-from affichage import *
+from display import *
 # from generation import *
-from constante import *
+from constants import *
 
 import game_rules as game
 
@@ -29,7 +29,8 @@ count = 0
 
 direction = [game.RIGHT]
 
-endGame = True
+
+# endGame = True
 
 #  Draw boardgame
 
@@ -40,36 +41,35 @@ draw_with_coordo(snake, "yellow", cnv)
 # Buttons
 
 generate_button = Button(window, text="Play", font='Helvetica 15 bold',
-                         background='light gray',  command=(lambda: game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)))
+                         background='light gray',  command=(lambda: game.start_game(window, cnv, snake, grid, count, compteur_lbl, direction)))
 
 generate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=2 * TAB_GAP)
 
-verify_button = Button(window, text="Simulate", font='Helvetica 15 bold',
+simulate_button = Button(window, text="Simulate", font='Helvetica 15 bold',
                        background='light gray')
 
-verify_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=3 * TAB_GAP)
+simulate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=3 * TAB_GAP)
 
 
-# Interactions
+# reset_button = Button(window, text="Reset", font='Helvetica 15 bold',
+#                        background='light gray', command=(lambda: reset_game(cnv, snake, grid, count, direction)))
 
-window.bind("<Left>", lambda event: game.go_left(direction))
-window.bind("<Up>", lambda event: game.go_up(direction))
-window.bind("<Right>", lambda event: game.go_right(direction))
-window.bind("<Down>", lambda event: game.go_down(direction))
+# reset_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=4 * TAB_GAP)
 
 
 # Game rules
 
-game.spawn_apple(grid, snake, cnv)
+# game.spawn_apple(grid, snake, cnv)
 
 
 
 compteur_lbl = Label(window, text=str(count), font=("", 16))
 compteur_lbl.grid(padx=8, pady=8)
 
-if not endGame:
-    game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)
+# if not endGame:
+#     game.move_the_snake(window, cnv, snake, grid, count, compteur_lbl, direction)
 
 
 window.mainloop()
+
 

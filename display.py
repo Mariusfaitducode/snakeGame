@@ -1,6 +1,6 @@
 import hashlib
 
-from constante import *
+from constants import *
 from tkinter import *
 
 
@@ -33,7 +33,6 @@ def draw_with_coordo(list_coordo, colour, cnv):
         x2 = x1 + COTE_CASE
         y2 = y1 + COTE_CASE
 
-        # color = id_to_random_color(val)
         # str(color)
         cnv.create_rectangle(x1, y1, x2, y2, fill=colour, width=2)
 
