@@ -2,7 +2,7 @@
 import random
 from constants import *
 
-import game_rules
+import game
 
 
 def find_best_case(snake, grid, apple, direction):
@@ -11,9 +11,10 @@ def find_best_case(snake, grid, apple, direction):
 
     dist = 1000
 
+    print("Initial direction : ", direction[0])
     
 
-    for dir in range(1, 5):
+    for dir in [RIGHT, LEFT, UP, DOWN]:
 
         copy_snake = snake
 
@@ -22,7 +23,8 @@ def find_best_case(snake, grid, apple, direction):
         last_direction = [direction[0]]
 
         l, c = snake[0]
-        (l, c, valid) = game_rules.go_direction(dir, last_direction, l, c )
+
+        (l, c, valid) = game.go_direction(dir, last_direction, l, c )
 
         # (apple_l, apple_c) = apple
         
@@ -35,10 +37,10 @@ def find_best_case(snake, grid, apple, direction):
         if valid:
             copy_snake.insert(0, (l, c))
         
-            if not game_rules.game_over(copy_snake):
+            if not game.game_over(copy_snake):
 
                 print("Valid direction : ", last_direction[0], dir)
-                direction = last_direction
+                direction[0] = last_direction[0]
                 copy_snake.remove(snake[0])
                 return
             
