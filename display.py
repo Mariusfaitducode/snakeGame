@@ -16,10 +16,10 @@ def draw_grid_colour(cnv):
 
             if (l + c) % 2 == 0:
 
-                cnv.create_rectangle(x1, y1, x2, y2, fill='#75ff7e', width=0)
+                cnv.create_rectangle(x1, y1, x2, y2, fill=BG_1, width=0)
 
             else:
-                cnv.create_rectangle(x1, y1, x2, y2, fill='#279227', width=0)
+                cnv.create_rectangle(x1, y1, x2, y2, fill=BG_2, width=0)
 
 
 def draw_with_coordo(list_coordo, colour, cnv):

@@ -29,16 +29,19 @@ class Game:
         display.draw_grid_colour(self.canvas)
 
         # Interactions
-        self.window.bind("<KeyPress>", self.change_direction)
+        self.window.bind("<KeyPress>", self.update_key_direction)
 
         # Game variables
-        self.grid = []
-        self.snake = []
+        self.grid = [[0 for _ in range(NB_COLUMN)] for _ in range(NB_LINE)]
+        self.snake = [(4, 6), (4, 5)]
         self.score = 0
         self.direction = Direction.RIGHT
         self.apple = (0, 0)
 
+        display.draw_with_coordo(self.snake, SNAKE_BODY, self.canvas)
+
         self.game_over = False
+        self.is_simulation = False
 
     # Game
     def start_game(self):
@@ -53,9 +56,18 @@ class Game:
 
         # Display game
         display.draw_grid_colour(self.canvas)
-        display.draw_with_coordo(self.snake, "yellow", self.canvas)
+        display.draw_with_coordo(self.snake, SNAKE_BODY, self.canvas)
 
         self.game_loop()
+
+    def start_simulation(self):
+
+        self.is_simulation = True
+
+        self.start_game()
+
+
+        pass
 
     def reset_game(self):
 
@@ -65,21 +77,27 @@ class Game:
     def game_loop(self):
 
         if not self.game_over:
+
+            if self.is_simulation:
+                self.direction = snakeAI.find_best_case(self)
+
             self.update_snake_position()
             self.check_collisions()
             self.draw_elements()
-            self.window.after(500, self.game_loop)
+            self.window.after(200, self.game_loop)
         else:
             display.draw_with_coordo(self.snake, 'blue', self.canvas)
             self.canvas.create_text(200, 200, text="GAME OVER", fill="red", font=("Helvetica", 30))
 
     def draw_elements(self):
         display.draw_grid_colour(self.canvas)
-        display.draw_with_coordo(self.snake, 'yellow', self.canvas)
+        display.draw_with_coordo(self.snake, SNAKE_BODY, self.canvas)
+        display.draw_with_coordo([self.snake[0]], SNAKE_HEAD, self.canvas)
         display.draw_apple(self.apple, self.canvas)
 
     # Movement Controls
-    def change_direction(self, event):
+
+    def update_key_direction(self, event):
         new_direction = None
         if event.keysym == "Up":
             new_direction = Direction.UP
@@ -89,6 +107,10 @@ class Game:
             new_direction = Direction.LEFT
         elif event.keysym == "Right":
             new_direction = Direction.RIGHT
+
+        self.change_direction(new_direction)
+
+    def change_direction(self, new_direction):
 
         opposites = {
             Direction.UP: Direction.DOWN,
@@ -124,7 +146,7 @@ class Game:
 
         self.snake.remove(self.snake[-1])
 
-        print(self.snake)
+        # print(self.snake)
 
     # Rules
     def spawn_apple(self):
@@ -140,22 +162,26 @@ class Game:
                 return True
 
     def check_collisions(self):
-        l, c = self.snake[0]
 
-        # Check wall collisions
-        if l >= NB_LINE or l < 0 or c >= NB_COLUMN or c < 0:
-            self.game_over = True
-
-        # Check self collisions
-        # set(snake) is the list without duplicates
-        if len(self.snake) != len(set(self.snake)):
-            self.game_over = True
+        self.game_over = self.verify_game_over()
 
         # Check food collision
         if self.snake[0] == self.apple:
             self.snake.append(self.snake[-1])
             self.spawn_apple()
             self.update_score()
+
+    def verify_game_over(self):
+        l, c = self.snake[0]
+        # Check wall collisions
+        if l >= NB_LINE or l < 0 or c >= NB_COLUMN or c < 0:
+            return True
+
+        # Check self collisions
+        # set(snake) is the list without duplicates
+        if len(self.snake) != len(set(self.snake)):
+            return True
+        return False
 
     def update_score(self):
         self.score += 1

@@ -26,3 +26,11 @@ DOWN = 4
 
 VIDE = 0
 APPLE = 1
+
+# Colors
+
+SNAKE_BODY = '#361F27'
+SNAKE_HEAD = '#FFF5B2'
+
+BG_1 = '#93e5ab'
+BG_2 = '#65b891'

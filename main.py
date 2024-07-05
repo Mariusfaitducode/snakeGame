@@ -9,7 +9,7 @@ from tkinter import *
 
 window = Tk()
 window.title("Snake Game")
-window.geometry("1080x720")
+window.geometry("850x520")
 
 
 game = Game(window)
@@ -23,15 +23,15 @@ generate_button = Button(window, text="Play", font='Helvetica 15 bold',
 generate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=2 * TAB_GAP)
 
 simulate_button = Button(window, text="Simulate", font='Helvetica 15 bold',
-                       background='light gray')
+                       background='light gray', command=(lambda: game.start_simulation()))
 
 simulate_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=3 * TAB_GAP)
 
 
-# reset_button = Button(window, text="Reset", font='Helvetica 15 bold',
-#                        background='light gray', command=(lambda: reset_game(cnv, snake, grid, count, direction)))
+reset_button = Button(window, text="Reset", font='Helvetica 15 bold',
+                       background='light gray', command=(lambda: game.reset_game()))
 
-# reset_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=4 * TAB_GAP)
+reset_button.place(x=2 * TAB_GAP + WIDTH_TAB, y=4 * TAB_GAP)
 
 
 

@@ -1,53 +1,53 @@
-
+import math
 import random
 from constants import *
 
-import game
+import game as g
 
 
-def find_best_case(snake, grid, apple, direction):
+def find_best_case(game):
 
     # rand_direction = random.randint(1, 4)
 
-    dist = 1000
 
-    print("Initial direction : ", direction[0])
-    
 
-    for dir in [RIGHT, LEFT, UP, DOWN]:
+    print("Initial direction : ", game.direction)
 
-        copy_snake = snake
+    initial_direction = game.direction
 
-        # direction[0] = dir
+    best_direction = None
+    best_distance = 1000
 
-        last_direction = [direction[0]]
+    for simulate_dir in g.Direction:
 
-        l, c = snake[0]
+        game.direction = initial_direction
+        game.change_direction(simulate_dir)
 
-        (l, c, valid) = game.go_direction(dir, last_direction, l, c )
+        initial_snake = game.snake.copy()
+        game.update_snake_position()
 
-        # (apple_l, apple_c) = apple
-        
-        # vect = apple_l - l, apple_c - c
+        if not game.verify_game_over():
+            # print("Valid direction : ", game.direction, simulate_dir)
+            # print("Initial snake : ", initial_snake, " - Snake : ", game.snake)
 
-        
+            snake_l, snake_c = game.snake[0]
+            apple_l, apple_c = game.apple
 
-        # Advance snake
+            distance = math.sqrt((apple_l - snake_l) ** 2 + (apple_c - snake_c) ** 2)
 
-        if valid:
-            copy_snake.insert(0, (l, c))
-        
-            if not game.game_over(copy_snake):
+            if distance < best_distance:
+                best_distance = distance
+                best_direction = game.direction
 
-                print("Valid direction : ", last_direction[0], dir)
-                direction[0] = last_direction[0]
-                copy_snake.remove(snake[0])
-                return
-            
-            else:
-                print("Detect Game Over : ", last_direction[0], dir)
-                copy_snake.remove(snake[0])
-        else:
-            print('Not valid : ', dir)
+        # else:
+            # print("Detect Game Over : ", game.direction, simulate_dir)
+
+        game.snake = initial_snake
+
+    if best_direction is None:
+        print("No case found")
+    else:
+        print(best_direction)
+    return best_direction
 
         
